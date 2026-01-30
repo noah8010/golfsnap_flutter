@@ -313,7 +313,7 @@ class MediaSelectionScreen extends ConsumerWidget {
                               },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          disabledBackgroundColor: AppColors.primary.withOpacity(0.4),
+                          disabledBackgroundColor: AppColors.primary.withValues(alpha:0.4),
                         ),
                         child: const Text('타임라인 생성'),
                       ),
@@ -423,7 +423,7 @@ class _MediaTile extends StatelessWidget {
           // Selection Overlay
           if (isSelected)
             Container(
-              color: AppColors.secondary.withOpacity(0.3),
+              color: AppColors.secondary.withValues(alpha:0.3),
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.secondary, width: 2),
@@ -444,7 +444,7 @@ class _MediaTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withValues(alpha:0.3),
                       blurRadius: 4,
                     ),
                   ],
@@ -461,7 +461,7 @@ class _MediaTile extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.7),
+                  color: Colors.black.withValues(alpha:0.7),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Row(
@@ -491,7 +491,7 @@ class _MediaTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withValues(alpha:0.3),
                       blurRadius: 4,
                     ),
                   ],

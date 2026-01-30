@@ -17,7 +17,7 @@ class _EditorWorkspaceScreenState extends ConsumerState<EditorWorkspaceScreen> {
   String _projectTitle = '새 프로젝트';
   bool _isEditingTitle = false;
   bool _isPlaying = false;
-  double _currentTime = 0;
+  final double _currentTime = 0;
   final double _totalDuration = 30;
 
   @override
@@ -158,7 +158,7 @@ class _EditorWorkspaceScreenState extends ConsumerState<EditorWorkspaceScreen> {
                                   width: 64,
                                   height: 64,
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.2),
+                                    color: Colors.white.withValues(alpha: 0.2),
                                     borderRadius: BorderRadius.circular(32),
                                   ),
                                   child: Icon(
@@ -179,7 +179,7 @@ class _EditorWorkspaceScreenState extends ConsumerState<EditorWorkspaceScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Colors.black.withValues(alpha: 0.6),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
@@ -200,7 +200,7 @@ class _EditorWorkspaceScreenState extends ConsumerState<EditorWorkspaceScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.7),
+                              color: Colors.black.withValues(alpha: 0.7),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(

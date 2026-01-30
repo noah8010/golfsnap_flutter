@@ -264,7 +264,7 @@ class _CreateDashboardScreenState extends ConsumerState<CreateDashboardScreen> {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(32),
               ),
               child: const Icon(
@@ -385,7 +385,7 @@ class _ShareButton extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: isPrimary ? Colors.white.withOpacity(0.2) : AppColors.gray100,
+                  color: isPrimary ? Colors.white.withValues(alpha: 0.2) : AppColors.gray100,
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Icon(
@@ -412,7 +412,7 @@ class _ShareButton extends StatelessWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: 14,
-                        color: isPrimary ? Colors.white.withOpacity(0.8) : AppColors.textSecondary,
+                        color: isPrimary ? Colors.white.withValues(alpha: 0.8) : AppColors.textSecondary,
                       ),
                     ),
                   ],
@@ -464,7 +464,7 @@ class _QuickStartButton extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: iconColor.withOpacity(0.1),
+                  color: iconColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Icon(icon, color: iconColor, size: 24),
@@ -533,7 +533,7 @@ class _ProjectCard extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.7),
+                          color: Colors.black.withValues(alpha: 0.7),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(

@@ -105,7 +105,7 @@ class AspectRatioScreen extends ConsumerWidget {
                           },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      disabledBackgroundColor: AppColors.primary.withOpacity(0.4),
+                      disabledBackgroundColor: AppColors.primary.withValues(alpha:0.4),
                     ),
                     child: const Text('다음'),
                   ),
@@ -134,7 +134,7 @@ class _AspectRatioOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isSelected ? AppColors.secondary.withOpacity(0.1) : AppColors.surface,
+      color: isSelected ? AppColors.secondary.withValues(alpha:0.1) : AppColors.surface,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         onTap: onTap,
