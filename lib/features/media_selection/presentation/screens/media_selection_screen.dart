@@ -85,11 +85,23 @@ final selectedMediaProvider = StateProvider<List<MediaItem>>((ref) => []);
 final selectedTabProvider = StateProvider<String>((ref) => 'all');
 
 /// 미디어 선택 화면
-class MediaSelectionScreen extends ConsumerWidget {
-  const MediaSelectionScreen({super.key});
+class MediaSelectionScreen extends ConsumerStatefulWidget {
+  final bool isShareMode;
+
+  const MediaSelectionScreen({
+    super.key,
+    this.isShareMode = false,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MediaSelectionScreen> createState() => _MediaSelectionScreenState();
+}
+
+class _MediaSelectionScreenState extends ConsumerState<MediaSelectionScreen> {
+  bool _showEditModeDialog = false;
+
+  @override
+  Widget build(BuildContext context) {
     final selectedTab = ref.watch(selectedTabProvider);
     final selectedMedia = ref.watch(selectedMediaProvider);
     final aspectRatio = ref.watch(selectedAspectRatioProvider);
@@ -107,9 +119,11 @@ class MediaSelectionScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColors.surface,
-      body: SafeArea(
-        top: false,
-        child: Column(
+      body: Stack(
+        children: [
+          SafeArea(
+            top: false,
+            child: Column(
           children: [
             // Status Bar Spacer
             Container(
@@ -306,16 +320,12 @@ class MediaSelectionScreen extends ConsumerWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: selectedMedia.isEmpty
-                            ? null
-                            : () {
-                                context.push('/editor');
-                              },
+                        onPressed: selectedMedia.isEmpty ? null : _handleNextClick,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           disabledBackgroundColor: AppColors.primary.withValues(alpha:0.4),
                         ),
-                        child: const Text('타임라인 생성'),
+                        child: Text(widget.isShareMode ? '다음' : '타임라인 생성'),
                       ),
                     ),
                   ],
@@ -325,6 +335,115 @@ class MediaSelectionScreen extends ConsumerWidget {
           ],
         ),
       ),
+
+          // Edit Mode Dialog
+          if (_showEditModeDialog) _buildEditModeDialog(),
+        ],
+      ),
+    );
+  }
+
+  void _handleNextClick() {
+    final selectedMedia = ref.read(selectedMediaProvider);
+
+    // 공유 모드이고 2개 이상 선택된 경우 편집 모드 선택 다이얼로그 표시
+    if (widget.isShareMode && selectedMedia.length >= 2) {
+      setState(() {
+        _showEditModeDialog = true;
+      });
+    } else {
+      context.push('/editor');
+    }
+  }
+
+  void _handleEditModeChoice(bool useEditMode) {
+    setState(() {
+      _showEditModeDialog = false;
+    });
+
+    if (useEditMode) {
+      // 편집 모드로 전환
+      context.push('/editor');
+    }
+    // 취소하면 다이얼로그만 닫고 미디어 선택 화면 유지
+  }
+
+  Widget _buildEditModeDialog() {
+    return Stack(
+      children: [
+        // Backdrop
+        GestureDetector(
+          onTap: () => setState(() {
+            _showEditModeDialog = false;
+          }),
+          child: Container(
+            color: Colors.black.withValues(alpha: 0.5),
+          ),
+        ),
+
+        // Dialog
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Material(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 400),
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '편집 모드로 전환',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '여러 개의 미디어를 선택하셨습니다.\n편집 모드로 전환하시겠습니까?',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () => _handleEditModeChoice(false),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.gray100,
+                              foregroundColor: AppColors.textPrimary,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              elevation: 0,
+                            ),
+                            child: const Text('취소'),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () => _handleEditModeChoice(true),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            child: const Text('편집하기'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

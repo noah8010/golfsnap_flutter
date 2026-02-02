@@ -45,17 +45,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/new-project/media-selection',
         name: 'mediaSelection',
-        pageBuilder: (context, state) => CustomTransitionPage(
-          key: state.pageKey,
-          child: const MediaSelectionScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = Offset(1.0, 0.0);
-            const end = Offset.zero;
-            final tween = Tween(begin: begin, end: end);
-            final offsetAnimation = animation.drive(tween);
-            return SlideTransition(position: offsetAnimation, child: child);
-          },
-        ),
+        pageBuilder: (context, state) {
+          final isShareMode = state.uri.queryParameters['isShareMode'] == 'true';
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: MediaSelectionScreen(isShareMode: isShareMode),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              const begin = Offset(1.0, 0.0);
+              const end = Offset.zero;
+              final tween = Tween(begin: begin, end: end);
+              final offsetAnimation = animation.drive(tween);
+              return SlideTransition(position: offsetAnimation, child: child);
+            },
+          );
+        },
       ),
 
       // 에디터 화면
