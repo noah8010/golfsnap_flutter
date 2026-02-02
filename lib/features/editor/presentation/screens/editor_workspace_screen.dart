@@ -90,11 +90,11 @@ class _EditorWorkspaceScreenState extends ConsumerState<EditorWorkspaceScreen> {
         clipId: media.id,
         track: TrackType.video,
         position: position,
-        duration: media.duration?.inSeconds.toDouble() ?? 5.0,
-        thumbnail: media.thumbnailPath,
-        sourceUri: media.path,
+        duration: media.duration?.toDouble() ?? 5.0,
+        thumbnail: media.thumbnail,
+        sourceUri: media.uri,
         startTime: 0,
-        endTime: media.duration?.inSeconds.toDouble() ?? 5.0,
+        endTime: media.duration?.toDouble() ?? 5.0,
       );
       timelineNotifier.addClip(clip);
       position += clip.duration;
