@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/dashboard/presentation/screens/create_dashboard_screen.dart';
 import '../../features/project_creation/presentation/screens/aspect_ratio_screen.dart';
+import '../../features/project_creation/presentation/screens/project_loading_screen.dart';
 import '../../features/media_selection/presentation/screens/media_selection_screen.dart';
 import '../../features/editor/presentation/screens/editor_workspace_screen.dart';
 
@@ -59,6 +60,25 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             },
           );
         },
+      ),
+
+      // 프로젝트 로딩 (Step 3)
+      GoRoute(
+        path: '/new-project/loading',
+        name: 'projectLoading',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const ProjectLoadingScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: ScaleTransition(
+                scale: Tween<double>(begin: 0.95, end: 1.0).animate(animation),
+                child: child,
+              ),
+            );
+          },
+        ),
       ),
 
       // 에디터 화면

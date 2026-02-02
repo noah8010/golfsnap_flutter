@@ -5,6 +5,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../domain/models/media_item.dart';
 import '../../../project_creation/presentation/screens/aspect_ratio_screen.dart';
+import '../widgets/share_dialog.dart';
 
 /// Mock 미디어 데이터
 final mockMediaItems = [
@@ -99,6 +100,7 @@ class MediaSelectionScreen extends ConsumerStatefulWidget {
 
 class _MediaSelectionScreenState extends ConsumerState<MediaSelectionScreen> {
   bool _showEditModeDialog = false;
+  bool _showShareDialog = false;
 
   @override
   Widget build(BuildContext context) {
@@ -338,6 +340,13 @@ class _MediaSelectionScreenState extends ConsumerState<MediaSelectionScreen> {
 
           // Edit Mode Dialog
           if (_showEditModeDialog) _buildEditModeDialog(),
+
+          // Share Dialog
+          if (_showShareDialog)
+            ShareDialog(
+              onClose: () => setState(() => _showShareDialog = false),
+              onShare: _handleShare,
+            ),
         ],
       ),
     );
@@ -346,13 +355,21 @@ class _MediaSelectionScreenState extends ConsumerState<MediaSelectionScreen> {
   void _handleNextClick() {
     final selectedMedia = ref.read(selectedMediaProvider);
 
-    // 공유 모드이고 2개 이상 선택된 경우 편집 모드 선택 다이얼로그 표시
-    if (widget.isShareMode && selectedMedia.length >= 2) {
-      setState(() {
-        _showEditModeDialog = true;
-      });
+    if (widget.isShareMode) {
+      if (selectedMedia.length >= 2) {
+        // 공유 모드: 2개 이상 선택 시 편집 모드 확인 다이얼로그
+        setState(() {
+          _showEditModeDialog = true;
+        });
+      } else {
+        // 공유 모드: 1개 선택 시 ShareDialog 표시
+        setState(() {
+          _showShareDialog = true;
+        });
+      }
     } else {
-      context.push('/editor');
+      // 편집 모드: Step3(로딩 화면)으로 이동
+      context.push('/new-project/loading');
     }
   }
 
@@ -362,10 +379,20 @@ class _MediaSelectionScreenState extends ConsumerState<MediaSelectionScreen> {
     });
 
     if (useEditMode) {
-      // 편집 모드로 전환
-      context.push('/editor');
+      // 편집 모드로 전환 - Step3(로딩 화면)으로 이동
+      context.push('/new-project/loading');
     }
     // 취소하면 다이얼로그만 닫고 미디어 선택 화면 유지
+  }
+
+  void _handleShare(String title, String content) {
+    // TODO: 실제 공유 로직 (프로토타입에서는 시뮬레이션)
+    debugPrint('공유하기: 제목=$title, 내용=$content');
+    setState(() {
+      _showShareDialog = false;
+    });
+    // 메인 페이지로 이동
+    context.go('/create');
   }
 
   Widget _buildEditModeDialog() {

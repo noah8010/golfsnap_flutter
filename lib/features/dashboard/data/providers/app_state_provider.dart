@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../domain/models/project.dart';
+import '../../../media_selection/domain/models/media_item.dart';
 
 /// 현재 화면 상태
 enum AppScreen {
@@ -108,6 +109,29 @@ class AppStateNotifier extends StateNotifier<AppState> {
       updatedAt: DateTime.now(),
     );
     addProject(newProject);
+  }
+
+  /// 새 프로젝트 생성
+  ///
+  /// Step3 완료 후 호출되어 프로젝트를 생성하고 목록에 추가합니다.
+  void createNewProject({
+    required AspectRatioType aspectRatio,
+    required List<MediaItem> selectedMedia,
+  }) {
+    final newProject = Project(
+      id: 'project-${DateTime.now().millisecondsSinceEpoch}',
+      name: '새 프로젝트 ${state.projects.length + 1}',
+      thumbnail: selectedMedia.isNotEmpty ? selectedMedia.first.thumbnail : null,
+      aspectRatio: aspectRatio,
+      duration: selectedMedia.fold(0, (sum, m) => sum + (m.duration ?? 3)),
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+
+    state = state.copyWith(
+      projects: [...state.projects, newProject],
+      currentProject: newProject,
+    );
   }
 }
 
