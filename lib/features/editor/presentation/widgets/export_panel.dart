@@ -280,7 +280,12 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
     });
 
     widget.onExport?.call();
-    widget.onClose?.call() ?? Navigator.pop(context);
+
+    if (widget.onClose != null) {
+      widget.onClose!();
+    } else {
+      Navigator.pop(context);
+    }
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(

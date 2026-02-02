@@ -348,7 +348,11 @@ class _FilterPanelState extends ConsumerState<FilterPanel> {
       ref.read(timelineProvider.notifier).addClip(clip);
     }
 
-    widget.onClose?.call() ?? Navigator.pop(context);
+    if (widget.onClose != null) {
+      widget.onClose!();
+    } else {
+      Navigator.pop(context);
+    }
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('필터가 적용되었습니다.')),

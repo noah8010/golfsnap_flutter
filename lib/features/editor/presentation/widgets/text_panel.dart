@@ -139,7 +139,12 @@ class _TextPanelState extends ConsumerState<TextPanel>
 
     final finalSettings = _settings.copyWith(content: _textController.text);
     widget.onAdd?.call(finalSettings);
-    widget.onClose?.call() ?? Navigator.pop(context);
+
+    if (widget.onClose != null) {
+      widget.onClose!();
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   @override

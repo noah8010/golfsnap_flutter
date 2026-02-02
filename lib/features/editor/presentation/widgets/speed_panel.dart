@@ -147,7 +147,12 @@ class _SpeedPanelState extends ConsumerState<SpeedPanel> {
           ElevatedButton(
             onPressed: () {
               _applySpeed(selectedClip.id, _speed);
-              widget.onClose?.call() ?? Navigator.pop(context);
+
+              if (widget.onClose != null) {
+                widget.onClose!();
+              } else {
+                Navigator.pop(context);
+              }
             },
             child: const Text('적용'),
           ),

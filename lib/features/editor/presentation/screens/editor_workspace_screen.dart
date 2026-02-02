@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../dashboard/data/providers/app_state_provider.dart';
+import '../../../media_selection/presentation/screens/media_selection_screen.dart';
 import '../../data/providers/timeline_provider.dart';
 import '../../domain/models/timeline_clip.dart';
 import '../widgets/time_ruler_widget.dart';
@@ -342,10 +343,10 @@ class _EditorWorkspaceScreenState extends ConsumerState<EditorWorkspaceScreen> {
               children: [
                 // 트랙 레이블
                 TrackLabelsColumn(
-                  onTextTrackTap: () => _showTextPanel(context),
-                  onAudioTrackTap: () => _showAudioPanel(context),
-                  onFilterTrackTap: () => _showFilterPanel(context),
-                  onStickerTrackTap: () => _showStickerPanel(context),
+                  onTextTap: () => _showTextPanel(context),
+                  onAudioTap: () => _showAudioPanel(context),
+                  onFilterTap: () => _showFilterPanel(context),
+                  onStickerTap: () => _showStickerPanel(context),
                 ),
 
                 // 타임라인 트랙 영역
@@ -389,7 +390,7 @@ class _EditorWorkspaceScreenState extends ConsumerState<EditorWorkspaceScreen> {
                       ),
 
                       // 센터 고정 플레이헤드
-                      PlayheadWidget(centerOffset: centerOffset),
+                      PlayheadWidget(topOffset: centerOffset),
                     ],
                   ),
                 ),

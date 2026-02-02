@@ -255,7 +255,11 @@ class _AudioPanelState extends ConsumerState<AudioPanel> {
       ref.read(timelineProvider.notifier).addClip(clip);
     }
 
-    widget.onClose?.call() ?? Navigator.pop(context);
+    if (widget.onClose != null) {
+      widget.onClose!();
+    } else {
+      Navigator.pop(context);
+    }
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
