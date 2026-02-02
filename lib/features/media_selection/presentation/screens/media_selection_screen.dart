@@ -387,7 +387,9 @@ class _MediaSelectionScreenState extends ConsumerState<MediaSelectionScreen> {
             padding: const EdgeInsets.all(16),
             child: Material(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Container(
                 constraints: const BoxConstraints(maxWidth: 400),
                 padding: const EdgeInsets.all(24),
